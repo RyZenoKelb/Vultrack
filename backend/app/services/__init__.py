@@ -1,4 +1,4 @@
-from .scanner import WebScanner
+from app.models.scanner import WebScanner
 from .analyzer import VulnerabilityAnalyzer
 from .pdf_generator import PDFReportGenerator
 

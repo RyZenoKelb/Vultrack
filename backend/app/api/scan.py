@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, BackgroundTasks
 from app.models.scan import ScanRequest, ScanResponse, ScanResult
-from backend.app.models.scanner import WebScanner
+from app.models.scanner import WebScanner
 from app.services.analyzer import VulnerabilityAnalyzer
 from app.services.pdf_generator import PDFReportGenerator
 from datetime import datetime
