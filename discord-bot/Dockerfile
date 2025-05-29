@@ -9,5 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copie du code
 COPY . .
 
+ENV PYTHONPATH=/app
+
 # Commande de démarrage
 CMD ["python", "run.py"]

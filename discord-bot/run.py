@@ -1,7 +1,7 @@
 import asyncio
 import os
 from dotenv import load_dotenv
-from bot import bot
+from bot.core import bot
 
 # Chargement des variables d'environnement
 load_dotenv()

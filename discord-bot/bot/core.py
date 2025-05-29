@@ -8,6 +8,8 @@ from typing import Optional
 import logging
 from datetime import datetime
 import asyncio
+import sys
+print(sys.path)
 
 # Configuration du logging
 logging.basicConfig(
@@ -35,9 +37,9 @@ class VultrackBot(commands.Bot):
     async def setup_hook(self):
         """Configuration initiale du bot"""
         # Chargement des commandes
-        await self.load_extension('commands.scan')
-        await self.load_extension('commands.help')
-        await self.load_extension('commands.stats')
+        await self.load_extension("bot.commands.scan")
+        await self.load_extension("bot.commands.help")
+        await self.load_extension("bot.commands.stats")
         
         # Synchronisation des commandes slash
         await self.tree.sync()

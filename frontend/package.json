@@ -12,7 +12,7 @@
       "@headlessui/react": "^1.7.17"
     },
     "scripts": {
-      "start": "vite",
+      "start": "vite --host",
       "build": "vite build",
       "preview": "vite preview"
     },
