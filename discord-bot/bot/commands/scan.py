@@ -6,6 +6,8 @@ import re
 from typing import Optional
 import asyncio
 from datetime import datetime, timedelta
+import logging
+logger = logging.getLogger('vultrack-bot')
 
 class ScanCog(commands.Cog):
     """Commandes de scan de sécurité"""
@@ -148,8 +150,7 @@ class ScanCog(commands.Cog):
                 )
                 
                 # Boutons d'action
-                view = ScanResultView(scan_result["scan_id"], data.get("pdf_url"))
-                
+                view = ScanResultView(scan_result["scan_id"], data.get("pdf_url"), website_url=self.bot.website_url)
                 await interaction.edit_original_response(embed=embed, view=view)
                 
             else:
@@ -219,28 +220,35 @@ class ScanCog(commands.Cog):
 
 class ScanResultView(discord.ui.View):
     """Vue avec boutons pour les résultats de scan"""
-    
-    def __init__(self, scan_id: str, pdf_url: Optional[str] = None):
-        super().__init__(timeout=300)  # 5 minutes
+
+    def __init__(self, scan_id: str, pdf_url: Optional[str] = None, website_url: Optional[str] = None):
+        super().__init__(timeout=300)
         self.scan_id = scan_id
         self.pdf_url = pdf_url
-        
-        # Bouton PDF si disponible
+        self.website_url = website_url or "https://vultrack.tech"
+
+        # Bouton PDF si disponible (corrige si jamais pdf_url est relatif)
         if pdf_url:
+            # Si pdf_url est déjà absolue, pas besoin de changer
+            if pdf_url.startswith("http"):
+                url = pdf_url
+            else:
+                url = f"{self.website_url}/api/v1/reports/{pdf_url.lstrip('/')}"
             self.add_item(discord.ui.Button(
                 label="Télécharger PDF",
                 style=discord.ButtonStyle.primary,
-                url=pdf_url,
+                url=url,
                 row=0
             ))
-        
-        # Bouton rapport web
+
+        # Bouton rapport web (dynamique !)
         self.add_item(discord.ui.Button(
             label="Rapport Complet",
             style=discord.ButtonStyle.link,
-            url=f"https://vultrack.tech/scan/{scan_id}",
+            url=f"{self.website_url}/scan/{scan_id}",
             row=0
         ))
+
     
     @discord.ui.button(label="Partager", style=discord.ButtonStyle.secondary, row=1)
     async def share_button(self, interaction: discord.Interaction, button: discord.ui.Button):

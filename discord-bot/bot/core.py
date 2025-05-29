@@ -32,7 +32,7 @@ class VultrackBot(commands.Bot):
         )
         
         self.api_base_url = os.getenv('API_BASE_URL', 'http://localhost:8000')
-        self.website_url = os.getenv('WEBSITE_URL', 'https://vultrack.tech')
+        self.website_url = os.getenv('WEBSITE_URL', 'http://localhost:3000')
         
     async def setup_hook(self):
         """Configuration initiale du bot"""
@@ -59,8 +59,3 @@ class VultrackBot(commands.Bot):
 
 # Initialisation du bot
 bot = VultrackBot()
-
-
-
-
-
